@@ -1,0 +1,242 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <style>
+    .scroll-bar{
+                position: absolute;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                height :300px;
+            }
+        </style>
+  <title>Api</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="text-primary p-4">Add Movies</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <form class="p-3 bg-light">
+          <div class="form-row align-items-center">
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInput">Title</label>
+              <input type="text" class="form-control p-2" id="inlineFormInput" placeholder="Title">
+            </div>
+
+            <div class="col-sm-4">
+              <label class="sr-only p-2" for="inlineFormInput"></label>
+              <select class="custom-select p-2" id="inlineFormInput">
+                <option selected>Year</option>
+                <option value="1">2019</option>
+                <option value="2">2018</option>
+                <option value="3">2017</option>
+              </select>
+            </div>
+
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInputGroup">Id</label>
+              <input type="text" class="form-control p-2" id="inlineFormInputGroup" placeholder="ID">
+            </div>
+            <div class="col-sm-1 text-center">
+              <button type="submit" class="btn btn-primary p-2">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-sm-8">
+        <form class="p-3 bg-light">
+          <div class="form-row align-items-center p-3">
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInput">Title</label>
+              <input type="text" class="form-control" id="inlineFormInput" placeholder="Title">
+            </div>
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInputGroup">Id</label>
+              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="ID">
+            </div>
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInputGroup">Id</label>
+              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="ID">
+            </div>
+          </div>
+          <div class="form-row align-items-center p-3">
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInput">Title</label>
+              <input type="text" class="form-control" id="inlineFormInput" placeholder="Title">
+            </div>
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInputGroup">Id</label>
+              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="ID">
+            </div>
+            <div class="col-sm-4">
+              <label class="sr-only" for="inlineFormInputGroup">Id</label>
+              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="ID">
+            </div>
+          </div>
+          <div class="form-group p-3 m-1">
+            <label for="inlineFormInputGroup"></label>
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+          </div>
+          <div class="form-row p-3">
+            <div class="col-sm-12">
+              <button type="submit" class="btn btn-primary p-2">Submit</button>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="col-sm-4 text-center">
+        <img src="image1.jpg" alt="image" height="390px" width="261px">
+      </div>
+    </div>
+
+
+    <!-----------------------------------Possible Match-------------------------->
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="text-primary p-4">Possible Matches</h1>
+      </div>
+    </div>
+
+    <div class="scroll-bar" data-spy="scroll" data-target="#list-example" data-offset="0">
+      <div class="row mt-5">
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+      </div>
+
+      <!-------------------------------Second Row of possible Match------------------->
+      <div class="row">
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+
+      </div>
+        <div class="col-sm-2">
+        <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+
+        </div>
+        <div class="col-sm-2">
+          <img src="image1.jpg" alt="images" height="183px" width="125px">
+          <!---------Image height,width----->
+          <a href="">
+            <span class="text-primary">Title:</span><em id="tile">Jonny English Stricks Agamin</em><br>
+            <span class="text-primary">Year:</span><em id="year-2019">2018</em><br>
+            <span class="text-primary">ImdbId:</span><em id="year-2019">123456</em>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+
+</html>

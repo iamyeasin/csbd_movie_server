@@ -1,0 +1,178 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, fieldset, legend, button, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+    
+}
+body{
+    background-color:#0a0f13 !important;
+}
+
+.banner-content ,h1,p,h2 {
+    color : #fff;
+}
+
+body h1,p{
+    color : #fff;
+}
+
+body h2{
+    color : #fff;
+}
+
+.container{
+    position: relative;
+}
+
+/*---------------HEADER--------------------*/
+header{
+   
+    background-color:#0a0f12;
+    padding: 20px;
+}
+.navbar-light .navbar-nav .nav-link {
+    color:#6ecffd !important;
+}
+.navbar-light .navbar-brand {
+    color:#6ecffd !important;
+
+}
+
+
+.nav-link{
+    color : #fff;
+}
+/*--------------Nav DropDown-------------*/
+.dropdown-menu{
+    background-color: #0a0f12 !important;
+    color: #6ecffd !important;
+}
+.dropdown-item{
+    color: #6ecffd !important;
+}
+.dropdown-item:hover{
+   background-color:  #6ecffd !important;
+   color: #04090d !important;
+}
+
+
+.dropdown-divider{
+    border-top:1px solid #6ecffd !important;
+}
+
+/*------for all contaimer---------*/
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+/*------------result search--------*/
+.result-search{
+    padding:25px;
+}
+/*----------Form level name---------*/
+.name{
+margin-bottom: 10px;
+font-weight: 700;
+font-size: .9em;
+color:  #5a5a5a;
+float: left;
+}
+/*----------element section-----------*/
+.element{
+    background-color: #04090d;
+    padding:80px;
+}
+/*---------- Custom select Owl carosel------*/
+.custom-select{
+    background: #282828
+    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .1em center !important;
+    background-position-x: right 0.75rem !important;
+    background-position-y: center !important;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+   
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+    background-size: 8px 10px !important;
+    border:none !important;
+    color:#a2a2a2 !important;
+}
+
+/*-------------button--------*/
+.btn-outline-secondary{
+    background-color:#2CC4F4 !important;
+    color:#fff !important;
+}
+/*------------Form---------*/
+.form-control{
+    border:none !important;
+    background-color: #282828 !important;
+    color:  #048CC4 !important;
+    
+}
+.form-control::placeholder{
+    color:#a2a2a2 !important;
+}
+
+form{
+    margin-top: -20px;
+}
+
+.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child), .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: none;
+}
+
+a{
+    color:white !important;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+.list-movie a:hover{
+    text-decoration: none !important;
+}
+
+/*--------------pagination----------------*/
+.pagination{
+    padding: 30px 0px 50px 0px;
+}
+.pagination a {
+    color:white;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    text-align: center;
+    float: left;
+  }
+  
+  .pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ddd;
+text-decoration: none;
+}
+
+/*----------------------------FOOTER----------------*/
+footer{
+    background-color: #0b1014;
+    padding: 40px 0px 40px 0px;
+   
+}
+.fa-phone{
+    color:#6ccef3; 
+}
+.fa-envelope, .fa-facebook, .fa-twitter{
+color:#6ccef3;
+}
+footer p:hover{
+    color: #6ccef3 !important;
+    border: none !important;
+}
+footer a{
+    text-decoration: none !important;
+}

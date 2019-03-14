@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>CSBD login</title>
+  </head>
+    <style media="screen">
+    .all{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        /* bring your own prefixes */
+        transform: translate(-50%, -90%);
+        }
+    .all{
+      width: 500px;
+    }
+
+    </style>
+      <body>
+        <div class="container text-center">
+          <!-- <div class="row">
+            <div class="col-lg-24"> -->
+              <!-- <div class=""> -->
+                <div class="all">
+                  {% include 'partials/_alerts.html' %}
+                  <h3 class="">Sign In</h3>
+                  <form class="form-signin" method='POST' width:"50%">
+                      {% csrf_token %}
+                      <div class="form-label-group">
+                        <input type="text" class="form-control" name='username' placeholder="User Name" required autofocus>
+                      </div>
+                      <br>
+                      <div class="form-label-group">
+                        <input type="password" id="inputPassword" name='password' class="form-control" placeholder="Password" required>
+                      </div>
+                      <br><br>
+                      <!-- send for authentication & access for add movies section -->
+                      <!-- <a href="{% url 'movies:userlogin' %}"></a> -->
+                      {% if user.is_authenticated %}
+                            <a href="{% url 'movies:addmovies' %}">
+                              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                            </a>
+                      {% else %}
+                            <a href="{% url 'movies:userlogin' %}">
+                              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                            </a>
+                      {% endif %}
+                      <br>
+                  </form>
+                </div>
+              </div>
+    </body>
+</html>

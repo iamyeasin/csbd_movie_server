@@ -1,0 +1,534 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style>
+      #changebackground{
+          background-color: #070708 !important;
+        }
+      .scroll-bar{
+                  position: absolute;
+                  overflow-y: scroll;
+                  overflow-x: hidden;
+                  height :300px;
+              }
+      .duelData{
+        display: none;
+      }
+
+      #lb1{
+        color: #a1a1a1;
+      }
+      #confirmDelete{
+        visibility: hidden;
+      }
+    </style>
+    <title>Update Episode</title>
+</head>
+
+<body>
+  <!-- nav bar -->
+    <div class="fixed-top">
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="changebackground">
+              <a class="navbar-brand" href="{% url 'movies:index' %}"><img width="300px" src="{% static 'images/logo.png' %}" alt="logo"></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ml-auto p-3">
+                      <li class="nav-item nav-item dropdown">
+                          <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Movies</span></a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{% url 'movies:addmovies' %}">Upload Movie</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'movies:updatemovie' %}">Update Movie</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'deletemovie:deleteMovies' %}">Delete Movie</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'movies:manualmovieupload' %}">Manual Upload</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'movies:searchmovies' %}">Search Movie</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'movies:possiblesearch' %}">Possible Search</a>
+                          </div>
+                      </li>
+                      <li class="nav-item nav-item dropdown">
+                          <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">TV</a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item" href="{% url 'TV:addTV' %}">Create TV</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'TV:createseason' %}">Create Season</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'TV:uploadepisode' %}">Upload Episode</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'TV:updatetv' %}">Update TV</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="#">Update Episode</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'TV:manualaddtv' %}">Create Manual TV</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'TV:createmanualseason' %}">Create Manual Season</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" href="{% url 'TV:uploademanualepisode' %}">Create Manual Episode</a>
+                                  <div class="dropdown-divider"></div>
+                              </div>
+                      </li>
+                      <li class="nav-item nav-item dropdown">
+                          <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Software</a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="../pages/Upload_Software.html">Upload Software</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="../pages/Update_Delete_Software.html">Update/Delete
+                                  Software</a>
+                          </div>
+                      </li>
+
+                      <li class="nav-item nav-item dropdown">
+                          <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Games</a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="../pages/UploadGames.html">Upload Games</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="../pages/Update_Delete_Games.html">Update/Delete Games</a>
+                          </div>
+                      </li>
+
+                      <li class="nav-item nav-item dropdown">
+                          <a class="nav-link nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false" href="#">Setting</a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="../pages/Backup_reset.html">Reset & Backup</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="../pages/Uncatagorized_List.html">Uncatagorized List</a>
+                          </div>
+                      </li>
+
+                      <li class="nav-item nav-item dropdown">
+                          <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="far fa-user-circle mr-1"></i>Admin</a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              {% if user.is_authenticated %}
+                                <a class="dropdown-item" href="{% url 'movies:userlogout' %}">Logout</a>
+                              {% else %}
+                                <a class="dropdown-item" href="{% url 'movies:userlogin' %}">Login</a>
+                              {% endif %}
+                              <!-- <a class="dropdown-item" href="../pages/Logout.html">Log Out</a> -->
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </nav>
+      </div>
+      <br>
+
+
+    <div class="container">
+        <div class="season">
+            <div class="row">
+                <div class="col-sm-12 pt-2 pb-2">
+                    <h1>Update Episode</h1>
+                </div>
+            </div>
+            <form method="GET" id="search_tv">
+                <div class="form-row">
+                    <div class=" col-md-3">
+                        <label for="select_tv">TV Title</label>
+                        <select id="select_tv" class="form-control">
+                          <option>Choose...</option>
+                                {% if alltv %}
+                                  {% for tv in alltv %}
+                                    <option>{{tv}} {{tv.TV_id}}</option>
+                                  {% endfor %}
+                                {% endif %}
+                        </select>
+                    </div>
+                    <div class=" col-md-3">
+                        <label for="select_tv">Season</label>
+                        <select id="select_tva" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="select_tv">TV ID</label>
+                        <input type="text" class="form-control" id="tv_id" placeholder="TV ID" val="">
+                    </div>
+                    <div class="col-md-2 mt-4 p-2">
+                        <button type="button" class="btn btn-primary" id="search_button">Search TV</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="row p-3">
+           <div class="col-sm-12">
+               <h2>Episodes</h2>
+           </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-sm-4">
+                <h5>Title</h5>
+            </div>
+            <div class="col-sm-2">
+                <h5>Episode Number</h5>
+            </div>
+            <div class="col-sm-2">
+                <h5>Episode Id</h5>
+            </div>
+            <div class="col-sm-2">
+                    <h5>API</h5>
+                </div>
+            <div class="col-sm-2">
+                <h5>Action</h5>
+            </div>
+        </div>
+
+        <div class="season_row bg-light p-4" id="episodeList"  >
+         <form action="" id="episode" method="GET">
+            <div class="row mb-3" id="regularInfo">
+              <div class="col-sm-4" id="etitle"></div>
+              <div class="col-sm-2" id="eserial"></div>
+              <div class="col-sm-2" id="eID"></div>
+              <div class="col-sm-2"  id="eAPI"></div>
+              <div class="col-sm-2">
+                <div class="row">
+                  <div class="col-sm-6" id="updatebtn"></div>
+                  <div class="col-sm-6" id="deletebtn"></div>
+                </div>
+              </div>
+            </div>
+         </form>
+       </div>
+    </div>
+
+    <!-- <div class="container mt-4 mb-4 p-4 bg-light">
+      <h5 class="pb-2">Look for New Episode</h5>
+      <form>
+        <div class="form-row">
+          <div class="col-3">
+            <lebel > Select TV </lebel>
+            <select id="selecttv" class="form-control mt-2">
+              <option>Choose...</option>
+                {% if alltv %}
+                  {% for tv in alltv %}
+                    <option>{{tv}}</option>
+                  {% endfor %}
+                {% endif %}
+            </select>
+            <em> <p id="searchseasonstatus" class="pt-3" >Status: </p> </em>
+          </div>
+          <div class="col-2">
+            <lebel > TV ID</lebel>
+            <input type="text" id="settvid" class="form-control mt-2" placeholder="TV ID">
+          </div>
+          <div class=" col-md-3">
+              <label for="selectseason">Season</label>
+              <select id="selectseason" class="form-control">
+                  <option selected>Choose...</option>
+              </select>
+          </div>
+          <div class="col-3">
+            <lebel> Select API </lebel>
+            <select id="selectapi" class="form-control mt-2">
+              <option>Choose...</option>
+              <option>IMDB</option>
+              <option>TMDB</option>
+              <option>TVDB</option>
+            </select>
+          </div>
+          <div class="col-3" id="btnset">
+            <label for="" id="lb1"> <em>Search for new episode and save</em> </label>
+            <input type="button" id="searchnewepisode" class="btn btn-primary mt-4" value="New Episode">
+          </div>
+        </div>
+      </form>
+    </div> -->
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript"> window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+          var selected = 1;
+          $('#select_tv').change(function(){
+            var id = $("[id='select_tv'] option:selected").text().split(' ').pop();
+            $.ajax({
+              url: "/TVs/upload_episode/",
+              data: { SelectedTV: id },
+              type: "GET",
+              csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+              success: function(data){
+                 var seasons =  JSON.parse(data['queryset']);
+                 var tvid = seasons[0].fields.TV_title
+                 $('#select_tva').empty();
+                 $("#select_tva").append('<option selected>Choose..</option>');
+                 var sz = seasons.length;
+                 for (var i = 0; i < sz; i++) {
+                    $("#select_tva").append('<option value=' + seasons[i].fields.season_id  + '>'+ seasons[i].fields.season_id +'</option>');
+                 }
+
+                 // console.log(seasons)
+                $('#tv_id').empty();
+                $('#tv_id').val(tvid)
+
+              }
+          })
+        });
+
+        $('#searchnewepisode').on('click',function(e){
+          e.preventDefault();
+          $('#searchseasonstatus').text("Status: Checking in Backround...");
+          $.ajax({
+            url: "/TVs/upload_episode/",
+            data: {
+              SelectedTV: $("[id='selecttv'] option:selected").text(),
+              api: $("[id='selectapi'] option:selected").text(),
+              selectedseason: $("[id='selectseason'] option:selected").text(),
+              tvid : $('#settvid').val(),
+              btnClicked: 'searchnewepisode',
+            },
+            type: "GET",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            success: function(data){
+                 $('#searchseasonstatus').text("Status: Dataset Updated");
+            },
+            error : function(){
+                $('#searchseasonstatus').text("Status: ERR! Season Already Exists or Couldn't Save");
+            }
+        })
+      })
+
+
+        $('#selecttv').change( function(){
+          $('#settvid').empty();
+
+          $.ajax({
+            url: "/TVs/upload_episode/",
+            data: { SelectedTV: $("[id='selecttv'] option:selected").text() },
+            type: "GET",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            success: function(data){
+               var seasons =  JSON.parse(data['queryset']);
+               var tvid = seasons[0].fields.TV_title
+               $('#settvid').val(tvid);
+               $('#selectseason').empty();
+               $("#selectseason").append('<option selected>Choose..</option>');
+               var sz = seasons.length;
+
+               for (var i = 0; i < sz; i++) {
+                  $("#selectseason").append('<option value=' + seasons[i].fields.season_id  + '>'+ seasons[i].fields.season_id +'</option>');
+               }
+
+            }
+        })
+      })
+
+
+
+        $('#select_tva').change(function(){
+          // e.preventDefault();
+            $('#episodeList').empty();
+
+
+          $.ajax({
+            url: "/TVs/upload_episode/",
+            data: {
+              SelectedTV: $("[id='select_tv'] option:selected").text(),
+              SelectedSeason: $("[id='select_tva'] option:selected").text(),
+              tv_id: $("#tv_id").val(),
+            },
+            type: "GET",
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            success: function(data){
+            var episodes =  JSON.parse(data['queryset']);
+             // console.log(episodes)
+             var sz = episodes.length;
+             // console.log(episodes);
+
+
+              for(var i = 0; i<sz; i++ ){
+                  var epsd = '<form method="GET" id="SendEpisodeInfo'+ (i+1) +'" >'
+                            +   '<div id=episodNO'+ (i+1) +'>'
+                            +    '<div class="row" >'
+                            +       '<div class="col-sm-4">'
+                            +          '<p id=episodeTitle'+ (i+1) +' value="'+ episodes[i].fields.episode_title +'">'+ episodes[i].fields.episode_title +'</p>'
+                            +        '</div>'
+                            +       '<div class="col-sm-2"><p name="episodeSerial"'+(i+1)+' id=episodeSerial'+ (i+1) +' value="'+ episodes[i].fields.episode_serial + '">'+  episodes[i].fields.episode_serial +'</p>'
+                            +       '</div>'
+                            +       '<div class="col-sm-2"><p name="episodeID"'+(i+1)+' id=episode_id'+ (i+1) +' value="'+ episodes[i].pk + '">'+ episodes[i].pk +'</p>'
+                            +       '</div>'
+                            +       '<div class="col-sm-2"><p name="episodeAPI"'+(i+1)+' id=episodeAPI'+ (i+1) +' value="'+ episodes[i].fields.API_name  + '">'+ episodes[i].fields.API_name +'</p>'
+                            +       '</div>'
+                            +       '<div class="col-sm-2"><p name="isUploaded"'+(i+1)+' id=isUploaded'+ (i+1) +' value="'+ episodes[i].fields.is_uploaded  + '">Uploaded: '+ episodes[i].fields.is_uploaded  +'</p>'
+                            +       '</div>'
+                            +     '</div><br>'
+                            +     '<div class="row">'
+                            +          '<div class="form-inline container">'
+                            +            'Destination Location: <em id="dlocation'+(i+1)+'">' + episodes[i].fields.destination_location + '</em>'
+                            +          '</div>'
+                            +     '</div><br>'
+                            +     '<div class="row container">'
+                            +          '<input type="checkbox" name="CHKbox"'+(i+1)+' value="isConverted" id=check_id'+ (i+1) +'> <em class="ml-2">Convert to mp4?</em>'
+                            +     '</div><br>'
+                            +     '<div class="row">'
+                            +          '<div class="form-inline container">'
+                            +            '<input type="text" name="lebel'+ (i+1) +'" id="SourceLocationLebel'+ (i+1) +'" readonly="" value="Source Location" class="form-control-plaintext">'
+                            +            '<input type="text" name="slocation'+ (i+1) +'" id="SourceLocationID'+ (i+1) +'" class="form-control col-sm-4">'
+                            +            '<input type="file" name="filename'+ (i+1) +'" id="filename'+ (i+1) +'" class="ml-4">'
+                            +            '<button class="btn btn-danger ml-2 " id="DeleteEpisode_'+ (i+1) +'" value="Update" type="submit">Update</button>'
+                            +          '</div>'
+                            +     '</div><br><br>'
+                            +      '<div class="row container">'
+                            +        '<div class="col-sm-8" id="confirmEpisodeDelete'+ (i+1) +'">'
+                            +             '<p>Are you Sure to Update <b>' + episodes[i].fields.episode_title + '</b> where TV ID: <b>' + episodes[i].pk + '</b></p>'
+                            +             '<input type="submit" class="btn btn-danger" value="Confirm" id="ConfirmDelete_'+(i+1)+'">'
+                            +             '<input type="submit" class="btn btn-warning ml-2" value="Cancel" id="CancelDeleteEpisode'+(i+1)+'">'
+                            +        '</div>'
+                            +      '</div>'
+                            +     '<br>'
+                            +  '<form>'
+                            +  '<hr>'
+                  $('#episodeList').append(epsd)
+              }
+
+              // Show the html element
+              $("[id*='confirmEpisodeDelete']").hide();
+              $("[id*='CancelDeleteEpisode']").on('click',function(e){
+                  e.preventDefault();
+                  var id = $(this).parent().attr('id');
+                  $('#'+id).toggle("slide");
+              });
+
+              // // Show the html element
+              $("[id*='DeleteEpisode_']").on('click',function(e){
+                  e.preventDefault();
+                  var number = $(this).attr('id').split('_').pop(); //Geting the number for upload episode
+                  $('#confirmEpisodeDelete' + number).toggle("slide")
+              })
+
+              // Confirm Updating an episode, Naming are not organized, copied from delete episode.
+              $("[id*='ConfirmDelete']").on('click',function(e){
+                e.preventDefault();
+                var number = $(this).attr('id').split('_').pop(); //Geting the number for upload episode
+                var epid = $('#episode_id' + number).text();
+                var title =  $('#episodeTitle' + number).text();
+                var srl =  $('#episodeSerial' + number).text();
+                var api = $('#episodeAPI' + number).text();
+                var dlocation = $('#dlocation' + number).text();
+                $('#isUploaded'+number).text("Status: Sending request..");
+                var filename = $('#filename'+number).val();
+                var episodeID = $('#episode_id'+number).text();
+                filename = filename.replace("C:\\fakepath\\", "");
+                var source = $('#SourceLocationID' + number).val();
+                var title = $('#episodeTitle' + number).text();
+
+                var isConverted;
+                if( $('#check_id'+number).is(":checked") ) {
+                  isConverted = 1;
+                }
+                else{
+                  isConverted = 0;
+                }
+
+                // console.log(tvid + " " + sesn + " " + api)
+
+                $.ajax({
+                  url: "/TVs/update_episode/",
+                  data: {
+                    epid: epid,
+                    title: title,
+                    api: api,
+                    srl: srl,
+                    'isConverted' : isConverted,
+                    'dlocation' : dlocation,
+                    btnClicked: 'updateEpisode',
+                    'filename' : filename,
+                    'sourcePath' : source,
+                  },
+                  type: "GET",
+                  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                  success: function(data){
+                    alert("Successfully Updated " + epid);
+                    $('#isUploaded'+number).text("Status: Data Updated");
+                    // $('#SendEpisodeInfo'+number).hide("slide");
+                  },
+                  error: function(data){
+                    $('#isUploaded'+number).text("Status: Some problem occured due to update");
+                  }
+              });
+
+          })
+
+
+            //   $("button").click(function(e){
+            //
+            //   $("[id*='DeleteEpisode']").click(function(e){
+            //     e.preventDefault();
+            //     var number = $(this).attr('id').split('_').pop(); //Geting the number for upload episode
+            //     var src = $('#SourceLocationID' + number).val();
+            //
+            //     if( src == "" || $('#filename'+number).val() == ""){
+            //       alert("EROR: Source location & file location cannot be null");
+            //       return false;
+            //     }
+            //
+            //
+            //
+            //     // $.ajax({
+            //     //     url: "/TVs/upload_episode/",
+            //     //     type: "GET",
+            //     //     // data:  {'fuck1':'fasu'},
+            //     //     data: {
+            //     //       'id' : episodeID,
+            //     //       'sourcePath' : source,
+            //     //       'episode_title' : title,
+            //     //       'episdoe_serial' : episode_serial,
+            //     //       'btnClicked' : 'UploadEpisode',
+            //     //
+            //     //     },
+            //     //     // csrfmiddlewaretoken: '{{ csrf_token }}',
+            //     //     success: function(datas){
+            //     //       // console.log("Sucesssssss")
+            //     //       $('#isUploaded'+number).text("Status: Saved")
+            //     //     },
+            //     //     error: function( req, status, err ) {
+            //     //       // console.log( 'something went wrong', status, err );
+            //     //       $('#isUploaded'+number).text("Status: Couldn't Saved the Data..");
+            //     //     },
+            //     // })
+            //   })
+            //
+            }
+        });
+      });
+      });
+
+
+
+    </script>
+</body>
+
+</html>

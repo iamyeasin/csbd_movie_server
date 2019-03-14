@@ -1,0 +1,268 @@
+{% load static %}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Add TV Series Manually</title>
+    <style media="screen">
+      #changebackground{
+          background-color: #070708 !important;
+        }
+      .scroll-bar{
+                  position: absolute;
+                  overflow-y: scroll;
+                  overflow-x: hidden;
+                  height :300px;
+              }
+      .duelData{
+        display: none;
+      }
+      #top{
+        margin-top : 100px;
+      }
+      .wrapper{
+        margin-top:50px;
+      }
+      .form-control.is-valid, .was-validated .form-control:valid{
+        border-color: transparent;
+        background-image: none;
+
+      }
+      .form-group.is-valid{
+        margin-left : 20px;
+      }
+
+      div.list{
+        width: 100%;
+        height: 80%;
+        overflow: scroll;
+      }
+      div.search{
+        width: 600px;
+      }
+      .btn{
+        margin-top: 20px;
+        margin-left: 20px;
+      }
+      div.searchformb{
+        margin-left: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="mb-5">
+      <div class="fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="changebackground">
+                <a class="navbar-brand" href="{% url 'movies:index' %}"><img width="300px" src="{% static 'images/logo.png' %}" alt="logo"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto p-3">
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Movies</span></a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'movies:addmovies' %}">Upload Movie</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'movies:updatemovie' %}">Update Movie</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'deletemovie:deleteMovies' %}">Delete Movie</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'movies:manualmovieupload' %}">Manual Upload</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Search Movie</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'movies:possiblesearch' %}">Possible Search</a>
+                            </div>
+                        </li>
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">TV</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="#">Create TV</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:createseason' %}">Create Season</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:uploadepisode' %}">Upload Episode</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:updatetv' %}">Update TV</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:updateepisode' %}">Update Episode</a>
+
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:manualaddtv' %}">Create Manual TV</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:createmanualseason' %}">Create Manual Season</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'TV:uploademanualepisode' %}">Create Manual Episode</a>
+                              <div class="dropdown-divider"></div>
+
+                            </div>
+                        </li>
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Software</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../pages/Upload_Software.html">Upload Software</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="../pages/Update_Delete_Software.html">Update/Delete
+                                    Software</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Games</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../pages/UploadGames.html">Upload Games</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="../pages/Update_Delete_Games.html">Update/Delete Games</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" href="#">Setting</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="../pages/Backup_reset.html">Reset & Backup</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="../pages/Uncatagorized_List.html">Uncatagorized List</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="far fa-user-circle mr-1"></i>Admin</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% if user.is_authenticated %}
+                                  <a class="dropdown-item" href="{% url 'movies:userlogout' %}">Logout</a>
+                                {% else %}
+                                  <a class="dropdown-item" href="{% url 'movies:userlogin' %}">Login</a>
+                                {% endif %}
+                                <!-- <a class="dropdown-item" href="../pages/Logout.html">Log Out</a> -->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+        <div class="container wrapper" id="top">
+          <h1>
+            {% if not form.instance.pk %}
+              Add Episode Manually
+
+            {% endif %}
+          </h1>
+          <em>season id should be unique and numberOfReleased and numberOfUploaded are the episode information</em>
+          <em>*example - Season 1*</em>
+        </div>
+
+    {% block content %}
+        <div class="container p-5 mb-5">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="form-group inline">
+              <div class="form-row">
+                <label for="" class="form-cotrol">TV ID</label>
+                <input type="text" name="" value="" class="ml-3 form-control col-sm-3" id="tvid">
+              </div>
+            </div>
+            {% bootstrap_form form %}
+            <input type="submit" name="" value="Save" class="btn btn-primary">
+          </form>
+        </div>
+
+    {% endblock %}
+  </body>
+
+  {% block javascript %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <!-- <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js'></script> -->
+
+      <script type="text/javascript">
+
+        $(document).ready(function() {
+
+          var dlocation = "{{id}}";
+          $('#id_season_ID').on('change',function(){
+            season = $("[name='season_ID'] option:selected").text();
+            // $("[name='categoryForTV'] option:selected").text()
+            // console.log(text);
+            $('#id_destination_location').val(dlocation+"/"+season);
+            $('#id_filepath').val(dlocation+"/"+season);
+          });
+
+
+          $('#id_TV_title').on('change',function(){
+            text = $('#id_TV_title').val();
+            // $('#id_TV_ID').val(text);
+            $('#tvid').val(text);
+          })
+
+          $('#id_destination_location').val(dlocation);
+          $('#id_rating').val(0);
+          $('#id_filepath').val(dlocation);
+          $('#id_numberOfUploaded').val(0);
+          $('#id_episode_api_ID').val("MANUAL");
+          $('#id_API_name').val("MANUAL");
+
+          $('#id_episode_serial').on('focusout',function(){
+            var serial = $('#id_episode_serial').val();
+            season = $("[name='season_ID'] option:selected").text();
+            var sesnnum = season.split(" ")[1]; // Season number
+            var S = "";
+            if( parseInt(sesnnum) > 9 ) {  S = "S" + sesnnum; }
+            else { S = "S0" + sesnnum ;}
+
+            var E = "E";
+            if( parseInt(serial) > 9 ) {  E = "E" + serial; }
+            else { E= "E0" + serial ;}
+
+            var newsrlid = S +""+E;
+            $('#id_episode_ID').val("");
+            $('#id_episode_ID').val($('#id_TV_title').val() + "_" + newsrlid );
+          });
+
+
+          $('#id_episode_ID').on('focusin',function(){
+            var serial = $('#id_episode_serial').val();
+            season = $("[name='season_ID'] option:selected").text();
+            var sesnnum = season.split(" ")[1]; // Season number
+            var S = "";
+            if( parseInt(sesnnum) > 9 ) {  S = "S" + sesnnum; }
+            else { S = "S0" + sesnnum ;}
+
+            var E = "E";
+            if( parseInt(serial) > 9 ) {  E = "E" + serial; }
+            else { E= "E0" + serial ;}
+
+            var newsrlid = S +""+E;
+            $('#id_episode_ID').val("");
+            $('#id_episode_ID').val($('#id_TV_title').val() + "_" + newsrlid );
+          });
+
+        });
+
+      </script>
+  {% endblock %}
+
+
+
+</html>

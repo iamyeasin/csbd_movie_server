@@ -1,0 +1,37 @@
+
+h3{
+    color: #fff !important;
+}
+.video-player{
+    padding: 60px;
+}
+.player-background{
+    background-color:#04090d;
+}
+.movie-details{
+    background-color: #0a0f13;
+    padding: 40px;
+}
+.row .image-right{
+    float:right !important;
+}
+.related{
+    padding:30px;
+    background-color: #04090d;
+}
+.our-nav.disabled {
+    float: right;
+    position: relative;
+    margin-top: -410px;
+}
+.button{
+    color:#6ccef3; 
+    background-color: transparent;
+    border:#6ccef3 1px solid;
+    display: inline-block; 
+    padding: 8px 25px 8px 25px;
+    border-radius: 5px;
+    }
+.button:hover{
+    text-decoration: none;
+}

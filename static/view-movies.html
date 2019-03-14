@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/view-movies.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+</head>
+
+<body>
+    <header>
+       <div id="head">
+            <div class="container">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="index.html"><i class="fas fa-home"></i>HOME</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav ml-auto d-flex align-items-center">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-film"></i>&nbsp;RECENT</a>
+                                </li>
+                                <li class="nav-item nav-item dropdown">
+                                    <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-folder-open"></i>&nbsp;MOVIES</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Hindi</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Bangla</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">English</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Tamil</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Others</a>
+                                      </div>
+                                </li>
+                                <li class="nav-item nav-item dropdown">
+                                    <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-video"></i>&nbsp;TV SHOWS</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Hindi</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Bangla</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">English</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Others</a>
+                                      </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fas fa-tv"></i>&nbsp;TV SERVER</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                </div>
+       </div>
+    </header>
+    <!-----------------------------------------------HEADER ENDS------------------------------>
+
+    <section class=" element">
+        <div class="container">
+            <form action="">
+                <div class="row justify-content-md-center">
+                    <div class="col-sm-9">
+                            <div class="input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Search Movies, TV, Anime, Software" name="search" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                  </div>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center text-center">
+                    <div class="col-sm-2">
+                        <label class="name" for="inlineFormCustomSelect">Catagory</label>
+                        <select name="Catagory" class="custom-select" id="inlineFormCustomSelect">
+                            <option value="selected">HINDI</option>
+                            <option value="BANGLA">BANGLA</option>
+                            <option value="ENGLISH">ENGLISH</option>
+                            <option value="TAMIL">TAMIL</option>
+                            <option value="OTHERS">OTHERS</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                            <label class="name" for="inlineFormCustomSelect">Genre</label>
+                        <select  name="Genre" class="custom-select" id="inlineFormCustomSelect">
+                                <option value="all">All</option>
+                                <option value="action">Action</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="animation">Animation</option>
+                                <option value="biography">Biography</option>
+                                <option value="comedy">Comedy</option>
+                                <option value="crime">Crime</option>
+                                <option value="documentary">Documentary</option>
+                                <option value="drama">Drama</option>
+                                <option value="family">Family</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="film-noir">Film-Noir</option>
+                                <option value="game-show">Game-Show</option>
+                                <option value="history">History</option>
+                                <option value="horror">Horror</option>
+                                <option value="music">Music</option>
+                                <option value="musical">Musical</option>
+                                <option value="mystery">Mystery</option>
+                                <option value="news">News</option>
+                                <option value="reality-tv">Reality-TV</option>
+                                <option value="romance">Romance</option>
+                                <option value="sci-fi">Sci-Fi</option>
+                                <option value="sport">Sport</option>
+                                <option value="talk-show">Talk-Show</option>
+                                <option value="thriller">Thriller</option>
+                                <option value="war">War</option>
+                                <option value="western">Western</option>
+                                </select>
+                    </div>
+                    <div class="col-sm-2">
+                            <label class="name" for="inlineFormCustomSelect">Rating</label>
+                            <select name="rating"  class="custom-select" id="inlineFormCustomSelect">
+                                    <option value="0">All</option>
+                                    <option value="9">9+</option>
+                                    <option value="8">8+</option>
+                                    <option value="7">7+</option>
+                                    <option value="6">6+</option>
+                                    <option value="5">5+</option>
+                                    <option value="4">4+</option>
+                                    <option value="3">3+</option>
+                                    <option value="2">2+</option>
+                                    <option value="1">1+</option>
+                                    </select>
+                    </div>
+                    <div class="col-sm-3">
+                            <label class="name" for="inlineFormCustomSelect">Order By</label>
+                            <select name="Orderby"  class="custom-select" id="inlineFormCustomSelect">
+                                    <option value="latest">Latest</option>
+                                    <option value="oldest">Oldest</option>
+                                    <option value="seeds">Seeds</option>
+                                    <option value="peers">Peers</option>
+                                    <option value="year">Year</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="likes">Likes</option>
+                                    <option value="alphabetical">Alphabetical</option>
+                                    <option value="downloads">Downloads</option>
+                            </select>
+                        </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+        <div class="container">
+            <div class="row text-center result-search">
+                <div class="col-sm-12">
+                    <h2>9931 Movies Found</h2>
+                </div>
+            </div>
+            <div class="row  text-center">
+                <div class="col-sm-2 list-movie">
+                    <a href="movie.html"><img src="images/R1.png" class="img-fluid" alt="">
+                        <p>Movie1</p></a>
+                </div>
+                <div class="col-sm-2 list-movie">
+                    <a href="movie.html"><img src="images/R2.png" class="img-fluid" alt="">
+                        <p>MOvie2</p></a>
+                </div>
+                <div class="col-sm-2 list-movie">
+                    <a href="movie.html"><img src="images/R3.png" class="img-fluid" alt="">
+                        <p>Movie3</p></a>
+                </div>
+                <div class="col-sm-2 list-movie">
+                    <a href="movie.html"><img src="images/The 100.png" class="img-fluid" alt="">
+                        <p>MOvie4</p></a>
+                </div>
+                <div class="col-sm-2 list-movie">
+                   <a href="movie.html"> <img src="images/Quitico.png" class="img-fluid" alt="">
+                    <p>MOvie5</p></a>
+                </div>
+                <div class="col-sm-2 list-movie">
+                   <a href="movie.html"> <img src="images/R1.png" class="img-fluid" alt="">
+                    <p>MOvie6</p></a>
+                </div>
+            </div>
+            <div class="row text-center">
+                    <div class="col-sm-2 list-movie">
+                        <a href="#"><img src="images/R1.png" class="img-fluid" alt="">
+                            <p>Movie1</p></a>
+                    </div>
+                    <div class="col-sm-2 list-movie">
+                        <a href="#"><img src="images/R2.png" class="img-fluid" alt="">
+                            <p>MOvie2</p></a>
+                    </div>
+                    <div class="col-sm-2 list-movie">
+                        <a href="#"><img src="images/R3.png" class="img-fluid" alt="">
+                            <p>Movie3</p></a>
+                    </div>
+                    <div class="col-sm-2 list-movie">
+                        <a href="#"><img src="images/The 100.png" class="img-fluid" alt="">
+                            <p>MOvie4</p></a>
+                    </div>
+                    <div class="col-sm-2 list-movie">
+                       <a href="#"> <img src="images/Quitico.png" class="img-fluid" alt="">
+                        <p>MOvie5</p></a>
+                    </div>
+                    <div class="col-sm-2 list-movie">
+                       <a href=""> <img src="images/R1.png" class="img-fluid" alt="">
+                        <p>MOvie6</p></a>
+                    </div>
+                </div>
+                <div class="row text-center">
+                        <div class="col-sm-2 list-movie">
+                            <a href="#"><img src="images/R1.png"  class="img-fluid" alt="">
+                                <p>Movie1</p></a>
+                        </div>
+                        <div class="col-sm-2 list-movie">
+                            <a href="#"><img src="images/R2.png" class="img-fluid" alt="">
+                                <p>MOvie2</p></a>
+                        </div>
+                        <div class="col-sm-2 list-movie">
+                            <a href="#"><img src="images/R3.png" class="img-fluid" alt="">
+                                <p>Movie3</p></a>
+                        </div>
+                        <div class="col-sm-2 list-movie">
+                            <a href="#"><img src="images/The 100.png" class="img-fluid" alt="">
+                                <p>MOvie4</p></a>
+                        </div>
+                        <div class="col-sm-2 list-movie">
+                           <a href="#"> <img src="images/Quitico.png" class="img-fluid" alt="">
+                            <p>MOvie5</p></a>
+                        </div>
+                        <div class="col-sm-2 list-movie">
+                           <a href=""> <img src="images/R1.png" class="img-fluid" alt="">
+                            <p>MOvie6</p></a>
+                        </div>
+                    </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pagination">
+                        <a href="#">&laquo;</a>
+                        <a href="#">1</a>
+                        <a class="active" href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">&raquo;</a>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="">
+                <div class="container">
+                    <div class="row d-flex align-items-center ">
+                        <div class="col col-sm-4">
+                            <p>Powerd By Cybersolutionsbd. <br> All right reserved 2019</p>
+                        </div>
+                        <div class="col col-sm-2">
+                            <p><i class="fas fa-phone fa-rotate-90"></i>016 1285 9201</p>
+                        </div>
+                        <div class="col col-sm-3">
+                            <P><i class="fas fa-envelope"></i> &nbsp;Cybersoltionsbd@live.com</P>
+                        </div>
+                        <div class="col col-sm-2">
+                           <p> <i class="fab fa-facebook"></i> &nbsp; Facebook</p>
+                        </div>
+                        <div class="col col-sm-1">
+                            <p><i class="fab fa-twitter"></i>twitter</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>

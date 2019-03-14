@@ -1,0 +1,461 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <style>
+    #changebackground{
+        background-color: #070708 !important;
+      }
+    .scroll-bar{
+                position: absolute;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                height :300px;
+            }
+    .duelData{
+      display: none;
+    }
+  </style>
+  <title>Update Movie</title>
+</head>
+
+<body>
+  <!-- nav bar -->
+  <div class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="changebackground">
+            <a class="navbar-brand" href="{% url 'movies:index' %}"><img width="300px" src="{% static 'images/logo.png' %}" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto p-3">
+                    <li class="nav-item nav-item dropdown">
+                        <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Movies</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'movies:addmovies' %}">Upload Movie</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Update Movie</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'deletemovie:deleteMovies' %}">Delete Movie</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'movies:manualmovieupload' %}">Manual Upload</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'movies:searchmovies' %}">Search Movie</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'movies:possiblesearch' %}">Possible Search</a>
+                        </div>
+                    </li>
+                    <li class="nav-item nav-item dropdown">
+                        <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">TV</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'TV:addTV' %}">Create TV</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Create Season</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'TV:uploadepisode' %}">Upload Episode</a>
+                            </div>
+                    </li>
+                    <li class="nav-item nav-item dropdown">
+                        <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Software</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="../pages/Upload_Software.html">Upload Software</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="../pages/Update_Delete_Software.html">Update/Delete
+                                Software</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item nav-item dropdown">
+                        <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Games</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="#">Create TV</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'TV:createseason' %}">Create Season</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'TV:uploadepisode' %}">Upload Episode</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'TV:updatetv' %}">Update TV</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'TV:updateepisode' %}">Update Episode</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item nav-item dropdown">
+                        <a class="nav-link nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" href="#">Setting</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="../pages/Backup_reset.html">Reset & Backup</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="../pages/Uncatagorized_List.html">Uncatagorized List</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item nav-item dropdown">
+                        <a class="nav-link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="far fa-user-circle mr-1"></i>Admin</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if user.is_authenticated %}
+                              <a class="dropdown-item" href="{% url 'movies:userlogout' %}">Logout</a>
+                            {% else %}
+                              <a class="dropdown-item" href="{% url 'movies:userlogin' %}">Login</a>
+                            {% endif %}
+                            <!-- <a class="dropdown-item" href="../pages/Logout.html">Log Out</a> -->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+
+
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h1 class="text-primary ml-3 pt-5 mt-5"><b>Update Movie</b></h1>
+      </div>
+    </div>
+      {% include 'partials/_alerts.html' %}
+    <div class="row">
+      <div class="col-sm-12">
+        <form class="p-3 bg-light" method='POST' enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-row align-items-center">
+            <div class="col-sm-3">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">Movie title</label>
+              {% if form %}
+                {{ form.movie_title }}
+              {% else %}
+                {{ dict.movie_title }}
+              {% endif %}
+              <!-- <input type="text" class="form-control p-2" id="inlineFormInput" placeholder="Enter movie title" name="titleForMovie" value="" required> -->
+            </div>
+
+            <div class="col-sm-2">
+              <label class="" for="inlineFormInput" name="yearForMovieLebel">Year</label>
+              {% if form %}
+                {{ form.year }}
+              {% else %}
+                {{ dict.year }}
+              {% endif %}
+              <!-- <input type="text" class="form-control p-2" id="inlineFormInput" placeholder="Year" name="yearForMovie" value="" > -->
+            </div>
+
+            <!-- <div class="col-sm-2">
+              <label class="" for="inlineFormInput" name="APIForMovieLebel">Select API</label>
+                <select class="custom-select p-2" id="inlineFormInput" name="APICategoryForMovie" value="" >
+                    <option selected value="3">TMDB</option>
+
+                    <option value="1" >IMDB</option>
+                    <option value="2">OMDB</option>
+
+                </select>
+            </div> -->
+
+            <div class="col-sm-2">
+              <label class="" for="inlineFormInputGroup" name="IDForMovieLebel" > Movie ID</label>
+                {% if form %}
+                  {{ form.movie_id }}
+                {% else %}
+                  {{ dict.movie_id }}
+                {% endif %}
+              <!-- <input type="text" class="form-control p-2" id="inlineFormInputGroup" placeholder="ID" name="IDForMovie" value=""> -->
+            </div>
+            <!-- <div class="col-sm-2">
+              <label class="" for="inlineFormInputGroup" name="categoryForMovieLebel" >Category</label>
+                <select class="custom-select p-2" id="inlineFormInput" name="categoryForMovie" value=""  >
+                  {% if cats %}
+                    {% for c in cats %}
+                      {% if c.category_name == moviecat %}
+                        <option selected value={{c}} name='moviecategory' >{{c.category_name}}</option>
+                      {% else %}
+                        <option value={{c}} name='moviecategory' >{{c.category_name}}</option>
+                      {% endif%}
+                    {% endfor%}
+                  {% endif %}
+                </select>
+            </div> -->
+
+
+            <div class="col-sm-1 text-center mt-4 pt-2">
+            <button type="submit" class="btn btn-primary" id="search_btn" name="search" value="Search">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Movie Detail Section  -->
+    <!-- section 2.1  -->
+    <div class="row mt-4">
+      <div class="col-sm-8">
+        <form class="p-3 bg-light" name='uploadform' id="test1234" method='POST' enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form-row align-items-center p-3">
+            <div class="col-sm-3">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">IMDB Rating</label>
+              {% if form %}
+                {{ form.IMDB_rating }}
+              {% else %}
+                {{ dict.IMDB_rating }}
+              {% endif %}
+            </div>
+            <div class="col-sm-3">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">Genre</label>
+              {% if form %}
+                {{ form.genre }}
+              {% else %}
+                {{ dict.genre }}
+              {% endif %}
+            </div>
+            <div class="col-sm-6">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">Director</label>
+              {% if form %}
+                {{ form.director }}
+              {% else %}
+                {{ dict.director }}
+              {% endif %}
+            </div>
+          </div>
+            <!-- section 2.2  -->
+
+          <div class="form-row align-items-center p-3">
+            <div class="col-sm-3">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">Writer</label>
+              {% if form %}
+                {{ form.writer }}
+              {% else %}
+                {{ dict.writer }}
+              {% endif %}
+            </div>
+
+            <div class="col-sm-4">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">API name</label>
+              {% if form %}
+                {{ form.API_name }}
+              {% else %}
+                {{ dict.API_name }}
+              {% endif %}
+            </div>
+
+            <div class="col-sm-5">
+              <label class="" for="inlineFormInput" name="titleForMovieLebel">Cast</label>
+              {% if form %}
+                {{ form.cast }}
+              {% else %}
+                {{ dict.cast }}
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group p-1 m-3">
+            <label class="" for="inlineFormInput" name="titleForMovieLebel">Plot</label>
+            {% if form %}
+              {{ form.plot }}
+            {% else %}
+              {{ dict.plot }}
+            {% endif %}
+          </div>
+
+          <!-- python form test -->
+
+            <div class="form-group p-1 m-3">
+                <label class="" for="inlineFormInput" name="titleForMovieLebel">Destination Location</label>
+                {% if form %}
+                  {{ form.destination_location }}
+                {% else %}
+                   {{destination}}
+                {% endif %}
+                <!-- <input name="uploadMovieFile" value="" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp" required> -->
+            </div>
+
+            <div class="form-row p-1">
+              <div class="col-sm-8">
+                <div class="form control container">
+                  <input class="form-control" type="text" id='srclocation' placeholder="Source Location" required>
+                </div>
+              </div>
+                <div class="input-group col-sm-4 pr-2">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="filename">
+                    <label class="custom-file-label" for="filename"></label>
+                  </div>
+                </div>
+              </div>
+
+            <div class="form-row container mt-4">
+              <div class="mt-2">
+                {% if form %}
+                    <p>Convert to MP4: {{ form.is_converted }}</p>
+                {% else %}
+                    <p>Convert to MP4: {{ dict.is_converted }}</p>
+                {% endif %}
+              </div>
+              <div class="ml-4 mt-2">
+
+                {% if form %}
+                    <p>Add to Feature List: {{ form.is_featured }} </p>
+                {% else %}
+                      <p>Add to Feature List: {{ dict.is_featured }} </p>
+                {% endif %}
+              </div>
+
+              <div class="ml-4 form control">
+                <label class="" for="inlineFormInput" name="titleForMovieLebel"></label>
+                <button type="submit" id="updateandconvert" class="btn btn-warning" >Convert & Update</button>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-sm-1 text-center">
+            {% if poster %}
+              <!-- <img src={{ps}} alt=""> -->
+              <img src={{poster.url}} alt="image" height="390px" width="261px">
+            {% else %}
+              <img src="{% static 'images/no-image.png' %}" id="poster_path" alt="image" height="390px" width="261px">
+            {% endif %}
+            <div>
+              <br><br>
+                <p>{{poster_path.poster_path}}( Manual Poster upload )</p>
+            </div>
+          </div>
+        </div>
+
+        </form>
+
+      <div class="container">
+        <br><br>
+      </div>
+
+</body>
+
+  {% block javascript %}
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    // Get data from server
+      $(document).ready(function(e){
+          $("#search_btn").click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+              type: 'POST',
+              url: '/update_movie/',
+              data: {
+                movie_id : $("#id_movie_id").val(),
+                movie_title : $("#id_movie_title").val(),
+                year : $("#id_year").val(),
+                search: 'Search',
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+              },
+              success: function(gotIt, status){
+
+                $("#id_movie_id").val(gotIt['movie_id'])
+                $("#id_year").val(gotIt['year'])
+                $("#id_movie_title").val(gotIt['movie_title'])
+                $("#id_IMDB_rating").val(gotIt['IMDB_rating'])
+                $("#id_writer").val(gotIt['writer'])
+                $("#director").val(gotIt['director'])
+                $("#id_cast").val(gotIt['cast'])
+                $("#id_plot").val(gotIt['plot'])
+                $("#id_API_name").val(gotIt['api'])
+                $("#id_genre").val(gotIt['genre'])
+                $("#id_director").val(gotIt['director'])
+                $("#id_is_converted").val('1')
+                $("#id_destination_location").val(gotIt['destination'])
+                $("#poster_path").attr("src", gotIt['img']);
+                console.log(gotIt['img'])
+
+              },
+              error : function(){
+                alert('Something is Wrong');
+              }
+            })
+          });
+        });
+
+
+        // Convert and Upload Button Script
+
+
+
+
+  </script>
+
+  <script>
+
+    // $(document).ready(function(e){
+    //   $("#uploadandconvert").click(function(e){
+    //
+    //     var filename = $('#filename').val();
+    //     filename = filename.replace("C:\\fakepath\\", "");
+    //     var isConverteds = "False", isFeatureds = "False"
+    //     if ($('#id_is_converted').is(":checked")){
+    //       isConverteds = "True"
+    //     }
+    //
+    //     if ($('#id_is_featured').is(":checked")){
+    //       isFeatureds = "True"
+    //     }
+    //
+    //     $.ajax({
+    //       type: 'POST',
+    //       url: '/update_movie/',
+    //       data: {
+    //         movie_id : $("#id_movie_id").val(),
+    //         movie_title : $("#id_movie_title").val(),
+    //         year : $("#id_year").val(),
+    //         selectapi : $("[name='APICategoryForMovie'] option:selected").text(),
+    //         category: $("[name='categoryForMovie'] option:selected").text(),
+    //         IMDB_rating: $("#id_IMDB_rating").val(),
+    //         genre: $("#id_genre").val(),
+    //         director: $("#id_director").val(),
+    //         writer: $("#id_writer").val(),
+    //         API_name: $("#id_API_name").val(),
+    //         cast: $("#id_cast").val(),
+    //         plot: $("#id_plot").val(),
+    //         destination_location: $("#id_destination_location").val(),
+    //         poster_path: $("#poster_path").attr('src'),
+    //         source_location: $('#srclocation').val(),
+    //         filename: filename,
+    //         isConverted: isConverteds,
+    //         isFeatured: isFeatureds,
+    //         btnclicked: 'uploadandconvert',
+    //         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+    //
+    //       },
+    //       success: function(gotIt,status){
+    //         console.log("Success")
+    //       },
+    //       error : function(){
+    //         alert('Something is Wrong');
+    //       }
+    //     })
+    //   });
+    // });
+
+  </script>
+
+
+{% endblock %}
+
+
+</html>
