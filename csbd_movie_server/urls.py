@@ -13,5 +13,6 @@ urlpatterns = [
     path('add_movies/',views.addMovies, name='addmovies'),
     path('delete_movies/',include('deletemovie.urls')),
     path('TVs/',include('Series.urls')),
+    path('software/',include('software.urls')),
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_URL)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

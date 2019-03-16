@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'movies',
     'settings',
     'Series',
+    'software',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
