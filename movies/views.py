@@ -325,7 +325,7 @@ def addMovies(request):
                 for item in movie_list:
                     searched_title = item[1]
                     ID = item[0]
-                    print(ID)
+                    # print(ID)
 
                     if yearGiven in searched_title:
                         #Found the movie_TITLE + yearGiven = Matched,There can be multiple, fetching the first one only
@@ -456,8 +456,8 @@ def addMovies(request):
                 else:
                     return HttpResponseNotFound("EROR")
                 pass
-            elif len(ID) == 0 and len(MOVIE_title) > 0 and len(MOVIE_year) > 0:
-                possible_DATA = methods.get_IMDB_by_Name(MOVIE_title)
+            elif len(ID) == 0 and len(title) > 0 and len(MOVIE_year) > 0:
+                possible_DATA = methods.get_IMDB_by_Name(title)
                 # print(possible_DATA)
                 return render(request, 'movies/add_movies.html', {'form': form, 'cats': all_category, })
 
@@ -482,7 +482,7 @@ def addMovies(request):
             # print(status)
             status = "OK"
             if status == "OK":
-                if methods.saveMovieInformation(request,category_choosen) == True:
+                if (methods.saveMovieInformation(request,category_choosen) == True):
                     dict = {'TEST':'ASDF'}
                     jsonmoviedata = json.dumps(dict)
                     return HttpResponse(jsonmoviedata, content_type="application/json")

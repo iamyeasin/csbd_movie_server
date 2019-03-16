@@ -5,8 +5,8 @@ from django.template.defaultfilters import slugify
 def upload_location(instance, filename):
     # newname = filename.split('.')[-1]
     # filename = "%s_%s.%s" % (instance.movie_id, instance.movie_title, newname)
-    path = ((instance.category_id.initial_path) + "/" + (instance.year) + "/" +
-            slugify(instance.movie_title) + " " + instance.year + "/poster/" + (filename))
+    path = ((instance.category_id.initial_path) + "/" + str(instance.year) + "/" +
+            slugify(instance.movie_title) + " " + str(instance.year) + "/poster/" + slugify(filename))
 
     return path
 

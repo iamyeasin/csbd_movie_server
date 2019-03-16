@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+﻿from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -13,14 +13,16 @@ from django.core.files.temp import NamedTemporaryFile
 from urllib.request import urlopen
 from . models import Category,UploadMovie
 from settings.models import *
-from . models import *
+from movies import models
 from . forms import *
-import paramiko,sys,os,re,json
+import paramiko
+import sys,re,os,json,requests
 from django.core import serializers
 import datetime
 from time import gmtime, strftime
 import tmdbsimple as tmdb
 import omdb
+from django.template.defaultfilters import slugify
 ##############################################################
 
 ### Add / Update / Manual add Movie Method section
@@ -271,70 +273,75 @@ def search_OMDB_by_Name(title):
 
 ########################### START SFTP SECTION ####################
 
+
 def mkdir_p(sftp, remote_directory):
+
+    print("vai dukhsen")
+    if remote_directory == '/':
+        # absolute path so change directory to root
+        sftp.chdir('/')
+        return
+    if remote_directory == '':
+        # top-level relative directory must exist
+        return
+
+    print("madarchod")
     try:
-        """Change to this directory, recursively making new folders if needed.
-        Returns True if any folders were created."""
-        if remote_directory == '/':
-            # absolute path so change directory to root
-            sftp.chdir('/')
-            return
-        if remote_directory == '':
-            # top-level relative directory must exist
-            return
-        try:
-            sftp.chdir(remote_directory) # sub-directory exists
-        except IOError:
-            dirname, basename = os.path.split(remote_directory.rstrip('/'))
-            mkdir_p(sftp, dirname) # make parent directories
-            sftp.mkdir(basename) # sub-directory missing, so created it
-            sftp.chdir(basename)
-            return True
-    except:
-        return False
+        sftp.chdir(remote_directory) # sub-directory exists
+    except IOError:
+        dirname, basename = os.path.split(remote_directory.rstrip('/'))
+        print(basename)
+        mkdir_p(sftp, dirname) # make parent directories
+        sftp.mkdir(basename) # sub-directory missing, so created it
+        sftp.chdir(basename)
+        return True
 
 
 
-# SFTP Transfer PUT File to Server
-def SFTPTransferPUT(filename, localpath, remotepath, convert):
+def deleteAFile(filepath):
 
     try:
-
         sshClient = paramiko.SSHClient()
         sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         sshClient.load_system_host_keys()
-        # print("asdfasd"host,port,username,password)
-        sshClient.connect(host, port, username, password)
+        #SFTP host,port,user,password,
+        sshClient.connect(FTPDetails.objects.get(pk=1).server_address, FTPDetails.objects.get(pk=1).portnumber, username=FTPDetails.objects.get(pk=1).username, password=FTPDetails.objects.get(pk=1).password)
+        sftp = sshClient.open_sftp()
 
+        sftp.remove(filepath)
+        return "OK"
+
+    except:
+        return "EROR"
+
+
+# SFTP Transfer PUT File to Server
+def SFTPTransferPUT(filename, localpath, remotepath):
+
+    print("Fuck")
+    try:
+        sshClient = paramiko.SSHClient()
+        sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        sshClient.load_system_host_keys()
+        print("Yeasin")
+        sshClient.connect(host, port, username, password)
+        print("Nirob")
+        sshClient.exec_command('mkdir -p ' + remotepath)
+
+        print("LocalPath -> ",localpath,"RemotePath -> ", remotepath)
         sftp = sshClient.open_sftp()
         localpath = os.path.join(localpath, filename)
-
-        # print("LocalPath -> ",localpath,"RemotePath -> ", remotepath)
 
         try:
             sftp.chdir(remotepath)
         except IOError:
-            if( mkdir_p(sftp,remotepath) == False ) :
-                # sftp.mkdir(remotepath)
-                # sftp.chdir(remotepath)
-                return "EROR"
+            mkdir_p(sftp, remotepath)
+            sftp.chdir(remotepath)
 
         remotepath = os.path.join(remotepath, filename)
-        # print(remotepath)
-
+        print(remotepath)
         sftp.put(localpath, remotepath)
         sftp.close()
-
-        # That method will work on deployment state, because it will run in local machineself.
-        # can't run from server machine
-
-        # if ( convert == "1" ): # if convert checkbox is marked
-        #     try:
-        #         convert_file_to_mp4(remotepath,"")
-        #     except Exception as e:
-        #         return "EROR"
-
-
         return "OK"
     except:
         return "EROR"
@@ -349,6 +356,7 @@ def SFTPTransferGET(filename, localpath, remotepath):
         sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         sshClient.load_system_host_keys()
         sshClient.connect(host, port, username, password)
+        sshClient.exec_command('mkdir -p ' + remotepath)
         sftp = sshClient.open_sftp()
 
         localpath = os.path.join(localpath, filename)
@@ -356,18 +364,17 @@ def SFTPTransferGET(filename, localpath, remotepath):
         try:
             sftp.chdir(remotepath)
         except IOError:
-            if( mkdir_p(sftp,remotepath) == False ) :
-                # sftp.mkdir(remotepath)
-                # sftp.chdir(remotepath)
-                return "EROR"
-
+            mkdir_p(sftp, remotepath)
+            sftp.chdir(remotepath)
 
         remotepath = os.path.join(remotepath, filename)
         sftp.get(remotepath, localpath)
         sftp.close()
-        messages.success(request,"DATA IS ON THE FTP SERVER")
+        # messages.success(request,"DATA IS ON THE FTP SERVER")
+        return "OK"
     except:
-        messages.error(request,"COULDN'T PUT THE DATA ON THE FTP SERVER")
+        # messages.error(request,"COULDN'T GET THE DATA ON THE FTP SERVER")
+        return "EROR"
 
 
 
@@ -390,11 +397,11 @@ def convert_file_to_mp4(source_location, filename):
         # Converted Path
         vid_output = os.path.join(source_location, filename)
         os.system("ffmpeg -i " + vid_input + " -vcodec copy -acodec copy -strict experimental " + vid_output)
-        messages.success(request,"MOVIE CONVERTED SUCCESFULLY")
+        # messages.success(request,"MOVIE CONVERTED SUCCESFULLY")
         return "OK"
     except:
-        messages.error(request,"COULDN'T CONVERT THE MOVIE")
-        return "EROR"
+        # messages.error(request,"COULDN'T CONVERT THE MOVIE")
+        return "ERROR"
 
 
 
@@ -450,9 +457,11 @@ def saveMovieInformation(request,category_choosen ):
 
     url = request.POST.get('poster_path')
     if url.startswith('http'):
+
         try:
+        # if (1):
             filename = request.POST.get('filename')
-            manualImage = request.FILES.get('manualImageFile') # Manual poster
+            # manualImage = request.FILES.get('manualImageFile') # Manual poster
             movie_ID = request.POST.get('movie_id')
             cat_ID = Category.objects.get(category_name=category_choosen)
             movie_TITLE = request.POST.get('movie_title')
@@ -467,25 +476,31 @@ def saveMovieInformation(request,category_choosen ):
             IS_CONVERTED = request.POST.get('isConverted')
             IS_FEATURED = request.POST.get('isFeatured')
             DESTINATION_LOCATION = request.POST.get('destination_location')
+            filePath = os.path.join(DESTINATION_LOCATION, filename)
 
-
+            # print(filename,movie_ID,cat_ID,slugify(movie_TITLE),YEAR,GENRE,IMDB_RATING,WRITER,DIRECTOR,CAST,PLOT,API_NAME,IS_CONVERTED,IS_FEATURED,DESTINATION_LOCATION,filePath )
+            # print("sadf")
             uploadInfo = UploadMovie(
                 movie_id = movie_ID,
                 category_id = cat_ID,
-                movie_title = movie_TITLE,
+                movie_title = (movie_TITLE),
                 year = YEAR ,
                 genre = GENRE,
                 IMDB_rating = IMDB_RATING ,
                 writer = WRITER ,
                 director = DIRECTOR,
-                cast = CAST  ,
+                cast = CAST,
                 plot = PLOT,
                 API_name = API_NAME,
                 is_converted = IS_CONVERTED,
                 is_featured = IS_FEATURED,
                 destination_location = DESTINATION_LOCATION,
+                # file_path = filePath,
             )
+
             uploadInfo.save()
+
+            # uploadInfo.save()
 
             # Section: Grab Poster
             url = request.POST.get('poster_path')
@@ -499,9 +514,23 @@ def saveMovieInformation(request,category_choosen ):
 
             # print(request.POST.get('new_poster_path'))
             # Location Join and rename poster
-            var = os.path.join(request.POST.get('movie_title'))
+            # var = os.path.join(request.POST.get('movie_title'))
             # print(var)
-            uploadInfo.poster_path.save((var + '.jpg'), File(img_temp))
+            # uploadInfo.poster_path.save((var + '.jpg'), File(img_temp))
+            # print("Bal")
+            path = os.path.join(movie_TITLE)
+            # print("bal amar")
+            img_data = requests.get(image_url).content
+            posterlocation = DESTINATION_LOCATION + "/poster"
+            npath = posterlocation + "/" + movie_ID + "_" + slugify(movie_TITLE) + '.jpg'
+
+            if not os.path.exists( posterlocation ):
+               os.makedirs( posterlocation )
+
+            with open( npath, 'wb') as handler:
+                handler.write( img_data )
+
+            uploadInfo.poster_path = npath
             uploadInfo.save()
             img_temp.flush()
             messages.success(request, 'Your Data is saved Successfully!')
@@ -513,6 +542,7 @@ def saveMovieInformation(request,category_choosen ):
 
         try:
             manualImage = request.FILES.get('manualImageFile') # Manual poster
+            filename = request.POST.get('filename')
             movie_ID = request.POST.get('movie_id')
             cat_ID = Category.objects.get(category_name=category_choosen)
             movie_TITLE = request.POST.get('movie_title')
@@ -527,6 +557,7 @@ def saveMovieInformation(request,category_choosen ):
             IS_CONVERTED = request.POST.get('isConverted')
             IS_FEATURED = request.POST.get('isFeatured')
             DESTINATION_LOCATION = request.POST.get('destination_location')
+            filePath = os.path.join(DESTINATION_LOCATION, filename)
 
             if manualImage is not None:
 
@@ -545,7 +576,8 @@ def saveMovieInformation(request,category_choosen ):
                     is_converted = IS_CONVERTED,
                     is_featured = IS_FEATURED,
                     destination_location = DESTINATION_LOCATION,
-                    poster_path=manualImage
+                    poster_path=manualImage,
+                    file_path = filePath,
                 )
 
                 uploadInfo.save()
@@ -571,7 +603,7 @@ def flyTheInformation(request,DATA,ID,API_choosen,category_choosen,MOVIE_year):
     if DATA and API_choosen == 'IMDB':
         IMDB_DATA = DATA
         # list for director , writer, casts
-        if not (ID.startswith("tt")):
+        if API_choosen == "OMDB" and  (not ID.startswith("tt")):
             ID = "tt" + ID
 
 
@@ -644,7 +676,7 @@ def flyTheInformation(request,DATA,ID,API_choosen,category_choosen,MOVIE_year):
 
         try:
             datestr = TMDB_DATA['release_date']
-            year = datestr.split('-',1) # Spliting the date into year -> 2018-01-28 ->['2018','01','28']
+            year = datestr.split('-',1) # Spliting the date into year -> 2018-01-28
             MOVIE_year = year[0]
         except:
             MOVIE_year = "1800"
