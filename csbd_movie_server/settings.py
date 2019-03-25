@@ -13,7 +13,7 @@ SECRET_KEY = '084*v1ufo2d2qiv-u=fj=$jlsjg!xq+#((5zm=pe_)w(3q=6n#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['103.83.15.87','127.0.0.1']
 
 
 # Application definition
@@ -138,9 +138,3 @@ MESSAGE_TAGS = {
     messages.WARNING: ' warning',
     messages.ERROR: 'danger',
 }
-
-
-try:
-    from .local_settings import *
-except ImportError:
-    pass
