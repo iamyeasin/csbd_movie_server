@@ -20,7 +20,7 @@ import os
 import re
 from stat import S_ISDIR
 from movies.forms import addMovieForm
-import json
+import json,shutil
 from settings.models import *
 from django.core import serializers
 from django.core.files.base import ContentFile
@@ -115,21 +115,20 @@ def deleteMovies(request):
         else:
             ID = request.POST.get('movie_id')
             try:
-                #set FTP Solution here
-                # sshClient = paramiko.SSHClient()
-                # sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-                # sshClient.load_system_host_keys()
-                # #SFTP host,port,user,password,
-                # sshClient.connect(FTPDetails.objects.get(pk=1).server_address, FTPDetails.objects.get(pk=1).portnumber, username=FTPDetails.objects.get(pk=1).username, password=FTPDetails.objects.get(pk=1).password)
-                # sftp = sshClient.open_sftp()
 
-                # if methods.SFTPMovieDIRDelete(sftp,'/mnt/Games/Avengers','/mnt/Games/Avengers') == True:
-                #     dlt = UploadMovie.objects.get(movie_id=ID)
-                #     dlt.delete()
-                #     messages.success(request,"Movie information is deleted!")
-                #     messages.success(request,"Movie Dir + file is also deleted from the server")
-                #     return render(request, 'movies/delete_movies.html', {'form': form, 'cats': all_category, })
-                pass
+                try:
+                    dlt = UploadMovie.objects.get(movie_id=ID)
+                    
+                    destination = dlt.destination_location
+                    # destination = os.path.dirname(destination)
+                    if( os.path.isdir(destination) ):
+                        status = shutil.rmtree(destination)
+                    dlt.delete() # deleting the row from database
+
+                    return HttpResponse("Ok")
+                except Exception as e:
+                    return HttpResponseNotFound("cannot delete")
+                    raise
             except:
                 messages.error(request,"Couldn't delete the Data.")
                 return render(request, 'movies/delete_movies.html', {'form': form, 'cats': all_category, })
