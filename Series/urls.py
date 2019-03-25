@@ -15,5 +15,6 @@ urlpatterns = [
     path('create_season/',views.seasons, name='createseason'),
     path('create_manual_season/',views.ManualSeasonCreate.as_view(), name='createmanualseason'),
     path('update_tv/',views.updatetv, name='updatetv'),
+    path('gettvinfo/',views.getTvInfo, name='tvinfo'),
 
 ]

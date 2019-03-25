@@ -340,6 +340,9 @@ def flyTheInformation(request,DATA,ID,API_choosen,category_choosen,MOVIE_year):
         except:
             seriesYears = year
 
+        # if( not (int(RATING) in range(0,11)) ):
+        #     RATING = 0.0
+
         # Build json Data
         form_IMDB = {
             'TV_title': TV_title,
@@ -435,6 +438,8 @@ def flyTheInformation(request,DATA,ID,API_choosen,category_choosen,MOVIE_year):
         destination_location = destination_location + "/" +  str(year) + "/" + slugify(TV_title) + " " + str(year)
         # Build json Data
         # print(TV_WRITER)
+        # if( not (int(RATING) in range(0,11)) ):
+        #     RATING = 0.0
 
         form_TMDB = {
             'TV_title': TV_title,
@@ -535,6 +540,7 @@ def flyTheInformation(request,DATA,ID,API_choosen,category_choosen,MOVIE_year):
         # Build json Data
         # print(TV_WRITER)
 
+
         form_TVDB = {
             'TV_title': TV_title,
             'TV_id': ID,
@@ -618,6 +624,10 @@ def newSeason( TvTitle, ID, seasonID , NOReleased, NOUploaded, DLocation, API_Na
     try:
         # print(TvTitle,ID,seasonID,NOReleased,NOUploaded,DLocation,API_Name)
         # CreateSeason.objects.create(
+        # print("safd",DLocation)
+        if not os.path.exists( DLocation+"/"):
+            os.makedirs( DLocation+"/")
+
         uploda = CreateSeason(
             TV_title = TvTitle,
             TV_ID = ID,
@@ -652,7 +662,7 @@ def saveIMDB_seasons_episodes( TV_ID, TV_TITLE ):
     NOS = 0
 
     # count Real Number of seasons, in some cases -1 is provided for unknown season
-    print("sess",seasons)
+    # print("sess",seasons)
     for ct in seasons:
         if int(ct) > 0:
             NOS += 1
@@ -665,10 +675,13 @@ def saveIMDB_seasons_episodes( TV_ID, TV_TITLE ):
 
     for sesn in range(1,NOS+1):
     #     #obj, seasonID , NOReleased, NOUploaded, DLocation, API_Name
+
         episodes = len(series['episodes'][sesn])
         seasonID = "Season "+ str(sesn)
         # dest_location = destlocation + "/" + seasonID + "/"
         dest_location = destlocation + "/" + seasonID
+        # print("dl",destlocation)
+
         status = newSeason(WhichSeries,TV_ID,seasonID,int(episodes), 0, dest_location,"IMDB")
 
         if status == "EROR":
@@ -806,6 +819,9 @@ def saveTMDB_seasons_episodes( TV_ID, TV_TITLE ):
         episodes = sesn['episode_count']
         seasonID = "Season "+ str( sesn['season_number'] )
         dest_location = destlocation + "/" + seasonID
+        print(dest_location)
+        if not os.path.exists( dest_location ):
+            os.makedirs( dest_location )
         lw = min( lw, sesn['season_number'] )
         hi = max( hi, sesn['season_number'] )
         status = newSeason(WhichSeries,TV_ID,seasonID,int(episodes), 0, dest_location,"TMDB")
@@ -930,6 +946,8 @@ def saveTVDB_seasons_episodes( TV_ID, TV_TITLE ):
         NOE = release_episodes[x] # Number of episode
         seasonID = "Season "+ str( x )
         dest_location = destlocation + "/" + seasonID
+        if not os.path.exists( dest_location ):
+            os.makedirs( dest_location )
         status = newSeason(WhichSeries,TV_ID,seasonID,int(NOE), 0, dest_location,"TVDB")
         if status == "EROR":
             return False

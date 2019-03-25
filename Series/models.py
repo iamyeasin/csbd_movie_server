@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+import os,shutil
 
 #Gives a specific path
 def upload_location(instance, filename):
@@ -64,6 +65,10 @@ class CreateSeason(models.Model):
         unique_together = (('TV_ID', 'season_id'),)
 
     def get_absolute_url(self):
+        # create the season folder inside the /mnt/*
+        if not os.path.exists( self.destination_location + "/"):
+            print("oikj")
+            os.makedirs( self.destination_location +"/")
         return reverse("TV:createseason") # after saving a season where to go
 
 

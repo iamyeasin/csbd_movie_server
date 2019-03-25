@@ -21,7 +21,7 @@ from movies.methods import *
 import json,imdb,re,os,sys,paramiko
 import tmdbsimple as tmdb
 from imdb import IMDb, helpers
-import omdb
+import omdb,shutil
 from django.views.generic import View,TemplateView,ListView,CreateView,DeleteView
 from django.core import serializers
 from django.core.files.base import ContentFile
@@ -47,7 +47,7 @@ def ManualTVCreate(request):
             key = request.POST.get('category')
             category_choosen =  CategoryForTv.objects.get(pk=int(key)).category_name
             status = methods.saveTVInformation(request,category_choosen)
-            print(status)
+            # print(status)
             if status == True:
                 return HttpResponse("ok")
             else:
@@ -65,6 +65,57 @@ def ManualTVCreate(request):
 
 
 
+# get single destination location of seasons and episode
+@login_required
+def getTvInfo(request):
+    btnclicked = request.POST.get('btnclicked')
+
+    if( btnclicked == "gettvdest"):
+
+        id = request.POST.get('tvid')
+        title = request.POST.get('title')
+        location = CreateTVSeries.objects.get(TV_id = id)
+        # print(location)
+        dlocation = location.destination_location
+        data = {"queryset" : dlocation}
+        # print(dlocation)
+        return JsonResponse(data)
+
+    elif( btnclicked == "getsesninfo"):
+
+        id = request.POST.get('tvid')
+        title = request.POST.get('title')
+        sesnid = request.POST.get('sesnid')
+        location = CreateSeason.objects.get(TV_ID = id,season_id=sesnid )
+        # print(location)
+        dlocation = location.destination_location
+        # print(location.destination_location)
+        data = {"queryset" : dlocation}
+        # print(dlocation)
+        return JsonResponse(data)
+
+    elif ( btnclicked == 'sesninfo'):
+        id = request.POST.get('tvid')
+        title = request.POST.get('title')
+        seasonid = request.POST.get('sesnid')
+
+        location = CreateSeason.objects.filter( TV_ID = id )
+        # dlocation = location.destination_location
+        sesn = []
+
+        for x in location:
+            sesn.append(x.season_id)
+
+        # print(sesn)
+        # serialized_qs = serializers.serialize('json', sesn)
+        # data = {"queryset" : serialized_qs}
+        return HttpResponse(json.dumps(sesn))
+    else:
+        return HttpResponseNotFound("nors")
+
+
+
+
 class ManualSeasonCreate(CreateView):
     # form_class = createTVForm
     model = CreateSeason
@@ -72,11 +123,11 @@ class ManualSeasonCreate(CreateView):
     # context_object_name = 'createTVForm'
     template_name = 'TV/create_manual_season.html'
 
-    def get_context_data(self,**kwargs):
-        baselocation = CategoryForTv.objects.get(pk=1).initial_path
-        context = super().get_context_data(**kwargs)
-        context['id'] = baselocation
-        return  context
+    # def get_context_data(self,**kwargs):
+    #     baselocation = CategoryForTv.objects.get(pk=1).initial_path
+    #     context = super().get_context_data(**kwargs)
+    #     context['id'] = baselocation
+    #     return  context
 
 
 class ManualEpisodeCreate(CreateView):
@@ -88,6 +139,8 @@ class ManualEpisodeCreate(CreateView):
 
     def get_context_data(self,**kwargs):
         baselocation = CategoryForTv.objects.get(pk=1).initial_path
+        # baselocation = UploadEpisode.objects.get().initial_path
+        # print(baselocation)
         context = super().get_context_data(**kwargs)
         context['id'] = baselocation
         return  context
@@ -442,7 +495,13 @@ def seasons(request):
 
             # deleting data from model
             instance = CreateSeason.objects.get(TV_ID=id,season_id=season,API_name=api)
+            destination = instance.destination_location
+            # destination = os.path.dirname(destination)
+            if( os.path.isdir(destination) and os.path.exists(destination) ):
+                status = shutil.rmtree(destination)
             instance.delete()
+            print("bal")
+
             return HttpResponse("Ok")
         except:
             return HttpResponse("Couldn't Delete")
@@ -466,7 +525,7 @@ class UploadEpisodeListView(ListView):
                 eID = request.GET.get('id')
                 set = UploadEpisode.objects.get( episode_ID = eID )
                 # remotepath = set.destination_location
-                localpath = request.GET.get('sourcePath')
+                # localpath = request.GET.get('sourcePath')
                 filename = request.GET.get('filename')
                 convert = request.GET.get('isConverted')
                 dlocation = request.GET.get('dlocation') # episode location
@@ -475,7 +534,7 @@ class UploadEpisodeListView(ListView):
                 # print( localpath,filename)
                 # remotepath = "/mnt/English/"
 
-                status = movies.methods.SFTPTransferPUT(filename, localpath, dlocation, convert)
+                # status = movies.methods.SFTPTransferPUT(filename, localpath, dlocation, convert)
                 # print(status)
                 #if file needs to convert
 
@@ -484,6 +543,7 @@ class UploadEpisodeListView(ListView):
                     # convert_status = convert_file_to_mp4(localpath, filename)
 
                 # set.filepath = set.destination_location +"/"+ filename
+                status = "OK"
                 set.filepath = os.path.join( set.destination_location , filename )
                 # if convert_status == "OK":
                 #     set.is_converted = True
@@ -518,24 +578,36 @@ class UploadEpisodeListView(ListView):
 
 
                     # Write code for deleting episode from FTP
+                    # deleting a file from ftp drive ... /mnt/*
                     # print(filepath)
 
+
                     # calling to take delete action
-                    status = methods.SFTP_deleteEpisode( filepath )
+                    # status = methods.SFTP_deleteEpisode( filepath )
                     # return HttpResponseNotFound("ok")
                     # print(status)
 
                     # delete episode from database/model
+
+                    status = "OK"
                     if( status == "OK" ):
                         instance = UploadEpisode.objects.get( episode_ID=epid, episode_serial=srl, API_name=api )
-                        instance.delete()
-                        obj = CreateSeason.objects.get( TV_ID = tvid , season_id = sesnid )
+                        destination = instance.destination_location
+                        if (instance.is_uploaded == True and os.path.exists(destination) and os.path.isfile(destination)):# check is the file already uploaded and if the file exists and it's a file
+                            os.remove(destination) # deleting the file
 
+                        print("asdfasd")
+                        #updating the uploaded episode number
+                        obj = CreateSeason.objects.get( TV_ID = tvid , season_id = sesnid )
                         cur = obj.numberOfUploaded
+                        # will only work if the any episode is uploaded
                         obj.numberOfUploaded = cur-1 # Reducing from seasons number of uploaded
+
                         # print(cur)
                         obj.save()
-
+                        # print("saved")
+                        instance.delete()
+                        # print("deleted")
                         return HttpResponse("ok")
                     else:
                         return HttpResponseNotFound("Can't Delete")
