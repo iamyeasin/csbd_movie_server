@@ -285,7 +285,6 @@ def mkdir_p(sftp, remote_directory):
         # top-level relative directory must exist
         return
 
-    print("madarchod")
     try:
         sftp.chdir(remote_directory) # sub-directory exists
     except IOError:
@@ -318,7 +317,6 @@ def deleteAFile(filepath):
 # SFTP Transfer PUT File to Server
 def SFTPTransferPUT(filename, localpath, remotepath):
 
-    print("Fuck")
     try:
         sshClient = paramiko.SSHClient()
         sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
